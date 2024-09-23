@@ -4,6 +4,8 @@ using System.Collections.Generic;
 class TaskManager
 {
     static List<string> tasks = new List<string>();
+    static List<string> tasksAsCompleted = new List<string>();
+    static List<string> tasksAsDeleted = new List<string>();
 
     static void Main()
     {
@@ -27,7 +29,9 @@ class TaskManager
             Console.WriteLine("2. Просмотреть текущие задачи");
             Console.WriteLine("3. Отметить задачу как выполненную");
             Console.WriteLine("4. Удалить задачу");
-            Console.WriteLine("5. Выйти\n");
+            Console.WriteLine("5. Посмотреть выполненные задачи");
+            Console.WriteLine("6. Посмотреть удаленные задачи");
+            Console.WriteLine("7. Выйти\n");
 
             string input = Console.ReadLine();
 
@@ -46,7 +50,22 @@ class TaskManager
                     RemoveTask();
                     break;
                 case "5":
-                    Console.WriteLine("\nСпасибо за использование менеджера задач!");
+                    DisplayAsCompletedTasks();
+                    break;
+                case "6":
+                    DisplayAsDeletedTasks();
+                    break;
+                case "7":
+                    Console.WriteLine("\nСпасибо за использование Task Manager!");
+                    Console.WriteLine(@"
+`````````_```````````_```````````````````````````` 
+```__``_/`|_`__`___`|`|__``_`__```___`_```_`___```
+``\`\/`/` |`'_```_`\|`'_`\|`'_`\`/`__|`|`|`/`__|``
+```>``<|`|` |`|`|`|`|`|`|`|`|_)`|\__`\`|_|`\__`\`` 
+```/_/\_\_|_|`|_|`|_|_|`|_|`.__(_)___/\__,`|___/``
+``` ````````````````````|_|`````````|___/`````````       
+");
+                    Thread.Sleep(3000);
                     return;
                 case "02042008":
                     Console.WriteLine("\nПривет от разработчика");
@@ -74,7 +93,7 @@ class TaskManager
         }
         else
         {
-            Console.WriteLine("Текущие задачи:");
+            Console.WriteLine("\nТекущие задачи:");
             for (int i = 0; i < tasks.Count; i++)
             {
                 Console.WriteLine($"\n{i + 1}. {tasks[i]}");
@@ -94,6 +113,7 @@ class TaskManager
             Console.Write("\nВведите номер задачи для отметки как выполненной: ");
             if (int.TryParse(Console.ReadLine(), out int taskNumber) && taskNumber > 0 && taskNumber <= tasks.Count)
             {
+                tasksAsCompleted.Add(tasks[taskNumber - 1]);
                 tasks.RemoveAt(taskNumber - 1);
                 Console.WriteLine("\nЗадача успешно отмечена как выполненная.");
             }
@@ -116,12 +136,45 @@ class TaskManager
             Console.Write("\nВведите номер задачи для удаления: ");
             if (int.TryParse(Console.ReadLine(), out int taskNumber) && taskNumber > 0 && taskNumber <= tasks.Count)
             {
+                tasksAsDeleted.Add(tasks[taskNumber - 1]);
                 tasks.RemoveAt(taskNumber - 1);
                 Console.WriteLine("\nЗадача успешно удалена.");
             }
             else
             {
                 Console.WriteLine("\nНекорректный номер задачи. Повторите попытку.");
+            }
+        }
+    }
+
+    static void DisplayAsCompletedTasks()
+    {
+        if (tasksAsCompleted.Count == 0)
+        {
+            Console.WriteLine("\nСписок выполненных задач пуст");
+        }
+        else
+        {
+            Console.WriteLine("\nВыполненные задачи:");
+            for (int i = 0; i < tasksAsCompleted.Count; i++)
+            {
+                Console.WriteLine($"\n{i + 1}. {tasksAsCompleted[i]}");
+            }
+        }
+    }
+    
+    static void DisplayAsDeletedTasks() 
+    {
+        if (tasksAsDeleted.Count == 0)
+        {
+            Console.WriteLine("\nСписок удаленных задач пуст");
+        }
+        else
+        {
+            Console.WriteLine("\nУдаленные задачи");
+            for (int i = 0; i < tasksAsDeleted.Count; i++)
+            {
+                Console.WriteLine($"\n{i + 1}. {tasksAsDeleted[i]}");
             }
         }
     }
