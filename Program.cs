@@ -3,9 +3,23 @@ using System.Collections.Generic;
 
 class TaskManager
 {
-    static List<string> tasks = new List<string>();
-    static List<string> tasksAsCompleted = new List<string>();
-    static List<string> tasksAsDeleted = new List<string>();
+    class Task
+    {
+        public string Title { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime Time { get; set; }
+
+        public Task(string title, DateTime date, DateTime time)
+        {
+            Title = title;
+            Date = date;
+            Time = time;
+        }
+    }
+    
+    static List<Task> tasks = new List<Task>();
+    static List<Task> tasksAsCompleted = new List<Task>();
+    static List<Task> tasksAsDeleted = new List<Task>();
 
     static void Main()
     {
@@ -54,9 +68,13 @@ class TaskManager
 
     static void AddTask()
     {
-        Console.Write("\nВведите новую задачу: ");
-        string newTask = Console.ReadLine();
-        tasks.Add(newTask);
+        Console.Write("\nВведите название новой задачи: ");
+        string title = Console.ReadLine();
+        Console.Write("Введите дату выполнения задачи (01.01.2001): ");
+        DateTime.TryParseExact(Console.ReadLine(), "dd.MM.yyyy", null, System.Globalization.DateTimeStyles.None, out var date);
+        Console.Write("Введите время выполнения задачи (15:30): ");
+        DateTime.TryParseExact(Console.ReadLine(), "HH:mm", null, System.Globalization.DateTimeStyles.None, out var time);
+        tasks.Add(new Task(title, date, time));
         Console.WriteLine("\nЗадача успешно добавлена");
     }
 
@@ -71,7 +89,7 @@ class TaskManager
             Console.WriteLine("\nТекущие задачи:");
             for (int i = 0; i < tasks.Count; i++)
             {
-                Console.WriteLine($"\n{i + 1}. {tasks[i]}");
+                Console.WriteLine($"\n{i + 1}. {tasks[i].Title} - {tasks[i].Date.ToString("dd.MM.yyyy")} {tasks[i].Time.ToString("HH:mm")}");
             }
         }
     }
@@ -133,7 +151,8 @@ class TaskManager
             Console.WriteLine("\nВыполненные задачи:");
             for (int i = 0; i < tasksAsCompleted.Count; i++)
             {
-                Console.WriteLine($"\n{i + 1}. {tasksAsCompleted[i]}");
+                Console.WriteLine($"\n{i + 1}. {tasksAsCompleted[i].Title} - {tasksAsCompleted[i].Date.ToString("dd.MM.yyyy")} {tasksAsCompleted[i].Time.ToString("HH:mm")}");
+
             }
             
             Console.WriteLine("\nВыберите действие: \n1. Очистить список \n2. Выйти в главное меню\n");
@@ -161,7 +180,7 @@ class TaskManager
             Console.WriteLine("\nУдаленные задачи");
             for (int i = 0; i < tasksAsDeleted.Count; i++)
             {
-                Console.WriteLine($"\n{i + 1}. {tasksAsDeleted[i]}");
+                Console.WriteLine($"\n{i + 1}. {tasksAsDeleted[i].Title} - {tasksAsDeleted[i].Date.ToString("dd.MM.yyyy")} {tasksAsDeleted[i].Time.ToString("HH:mm")}");
             }
             
             Console.WriteLine("\nВыберите действие: \n1. Очистить список \n2. Выйти в главное меню\n");
@@ -170,8 +189,7 @@ class TaskManager
 
             switch (input)
             {
-                case "1":
-                    tasksAsCompleted.Clear(); Console.WriteLine("\nВы очистили список удаленных задач"); break;
+                case "1": tasksAsDeleted.Clear(); Console.WriteLine("\nВы очистили список удаленных задач"); break;
                 case "2": break;
             }
         }
