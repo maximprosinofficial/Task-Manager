@@ -160,7 +160,25 @@ class TaskManager
             {
                 Console.WriteLine($"\n{i + 1}. {tasksAsCompleted[i]}");
             }
+            
+            Console.WriteLine("\nВыберите действие:");
+            Console.WriteLine("1. Очистить список");
+            Console.WriteLine("2. Выйти в главное меню\n");
+
+            string input = Console.ReadLine();
+
+            switch (input)
+            {
+                case "1":
+                    tasksAsCompleted.Clear();
+                    Console.WriteLine("\nВы очистили список выполненных задач");
+                    break;
+                case "2":
+                    break;
+            }
         }
+        
+        
     }
     
     static void DisplayAsDeletedTasks() 
@@ -175,6 +193,22 @@ class TaskManager
             for (int i = 0; i < tasksAsDeleted.Count; i++)
             {
                 Console.WriteLine($"\n{i + 1}. {tasksAsDeleted[i]}");
+            }
+            
+            Console.WriteLine("\nВыберите действие:");
+            Console.WriteLine("1. Очистить список");
+            Console.WriteLine("2. Выйти в главное меню\n");
+
+            string input = Console.ReadLine();
+
+            switch (input)
+            {
+                case "1":
+                    tasksAsCompleted.Clear();
+                    Console.WriteLine("\nВы очистили список удаленных задач");
+                    break;
+                case "2":
+                    break;
             }
         }
     }
